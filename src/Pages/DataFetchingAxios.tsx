@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
+import { useFetch } from "../hook/useFetch";
 
 type Repository = {
   full_name: string;
   description: string;
+  setGitUser: () => void;
+  gitUser: string;
 }
 
 function DataFetchingAxios() {
-  const [ repositories, setRepositories ] = useState<Repository[]>([]);
   const [ inputValue, setInputValue ] = useState('');
-  const [ repo, setRepo ] = useState('andraderepository');
+  const [ gitUser, setGitUser ] = useState('andraderepository');
 
-  useEffect(() => {
-    fetch(`https://api.github.com/users/${repo}/repos`)
-      .then(response => response.json())
-      .then(data => {
-        setRepositories(data)
-      })
-  }, [repo])
+  const { data: repositories } = useFetch<Repository[]>(`https://api.github.com/users/${gitUser}/repos`)
+  
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     return (
@@ -25,7 +22,7 @@ function DataFetchingAxios() {
   }
 
   function handleSearch() {
-    setRepo(inputValue)
+    setGitUser(inputValue)
   }
 
   return (
@@ -35,7 +32,7 @@ function DataFetchingAxios() {
         <button onClick={handleSearch}>Search</button>
         <hr />
         <ul>
-        {repositories.map(repo => {
+        {repositories?.map(repo => {
             return (
             <li key={repo.full_name}>
                 <strong>{repo.full_name}</strong>

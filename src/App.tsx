@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Link, Route } from "react-router-dom";
 
-import DataFetchingClassic from "./Pages/DataFetchingClassic";
-import DataFetchingAxios from "./Pages/DataFetchingAxios";
+import DataFetchingClassic from "./pages/DataFetchingClassic";
+import DataFetchingAxios from "./pages/DataFetchingAxios";
 
 function App() {
 
@@ -19,7 +19,7 @@ function App() {
       </nav>
       <Routes>
         <Route path="DataFetchingClassic" Component={DataFetchingClassic}/>
-        <Route path="DataFetchingClassic" Component={DataFetchingAxios}/>
+        <Route path="DataFetchingAxios" Component={DataFetchingAxios}/>
       </Routes>
     </Router>
   )
