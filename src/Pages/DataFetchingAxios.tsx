@@ -4,16 +4,13 @@ import { useFetch } from "../hook/useFetch";
 type Repository = {
   full_name: string;
   description: string;
-  setGitUser: () => void;
-  gitUser: string;
 }
 
 function DataFetchingAxios() {
   const [ inputValue, setInputValue ] = useState('');
   const [ gitUser, setGitUser ] = useState('andraderepository');
 
-  const { data: repositories } = useFetch<Repository[]>(`https://api.github.com/users/${gitUser}/repos`)
-  
+  const { data: repositories, isFetching } = useFetch<Repository[]>(`/users/${gitUser}/repos`)
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     return (
@@ -32,14 +29,17 @@ function DataFetchingAxios() {
         <button onClick={handleSearch}>Search</button>
         <hr />
         <ul>
-        {repositories?.map(repo => {
-            return (
-            <li key={repo.full_name}>
-                <strong>{repo.full_name}</strong>
-                <p>{repo.description}</p>
-            </li>
-            )
-        })}
+
+          { isFetching && <p>Loading...</p>}
+
+          {repositories?.map(repo => {
+              return (
+              <li key={repo.full_name}>
+                  <strong>{repo.full_name}</strong>
+                  <p>{repo.description}</p>
+              </li>
+              )
+          })}
         </ul>
     </>
   )
